@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles.css" />
+        <title>ClubFeed: Sign-Up</title>
+    </head>
+    <body>
+        <h1>Sign Up</h1>
+        <% if (errors) { %>
+        <div class="errors">
+            <ul>
+                <% errors.forEach(error => { %>
+                <li><%= error.msg %></li>
+                <%});%>
+            </ul>
+        </div>
+        <% } %>
+        <form action="/sign-up" method="POST">
+            <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="First Name"
+            />
+            <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="Last Name"
+            />
+            <input
+                id="username"
+                name="username"
+                placeholder="username"
+                type="text"
+            />
+            <input id="password" name="password" type="password" />
+            <input
+                id="passwordConfirmation"
+                name="passwordConfirmation"
+                type="password"
+            />
+            <input type="email" name="email" id="email" placeholder="Email" />
+            <input
+                type="password"
+                name="adminPassword"
+                id="adminPassword"
+                placeholder="Admin Password"
+            />
+            <button type="submit">Sign Up</button>
+        </form>
+    </body>
+</html>
