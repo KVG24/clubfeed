@@ -7,7 +7,14 @@
         <title>ClubFeed</title>
     </head>
     <body>
+        <% if (!user) { %>
         <h1>Welcome to ClubFeed</h1>
         <a href="/sign-up">Register</a>
+        <a href="/log-in">Log In</a>
+        <% } else { %>
+        <h1>Welcome back <%= user.first_name + " " + user.last_name %></h1>
+        <a href="/log-out">Log Out</a>
+        <% } %>
     </body>
 </html>
+`

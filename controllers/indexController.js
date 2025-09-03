@@ -1,13 +1,18 @@
 const pool = require("../db/pool");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 function renderIndex(req, res) {
-    res.render("index");
+    res.render("index", { user: req.user });
 }
 
 function renderSignUp(req, res) {
     res.render("sign-up", { errors: null });
+}
+
+function renderLogIn(req, res) {
+    res.render("log-in", { errors: null });
 }
 
 async function registerUser(req, res, next) {
@@ -31,15 +36,34 @@ async function registerUser(req, res, next) {
                 isAdmin,
             ]
         );
-        res.redirect("/");
+        res.redirect("/log-in");
     } catch (err) {
         console.error(err);
         next(err);
     }
 }
 
+function logIn(req, res, next) {
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/log-in",
+    })(req, res, next);
+}
+
+function logOut(req, res, next) {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+}
+
 module.exports = {
     renderIndex,
     renderSignUp,
+    renderLogIn,
     registerUser,
+    logIn,
+    logOut,
 };
