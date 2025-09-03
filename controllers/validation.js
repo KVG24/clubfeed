@@ -18,14 +18,20 @@ const validateSignUp = [
         .isLength({ min: 1, max: 50 })
         .withMessage(`Last name ${lengthErr}`)
         .escape(),
-    body("username").trim().escape(),
+    body("username")
+        .trim()
+        .isLength({ min: 1, max: 50 })
+        .withMessage(`Username ${lengthErr}`)
+        .escape(),
     body("password")
         .trim()
         .isLength({ min: 5, max: 255 })
         .withMessage("Password should be minimum 5 characters"),
-    body("passwordConfirmation").custom((value, { req }) => {
-        return value === req.body.password;
-    }),
+    body("passwordConfirmation")
+        .custom((value, { req }) => {
+            return value === req.body.password;
+        })
+        .withMessage("Confirmation password don't match"),
     body("email").isEmail().withMessage("Incorrect email format").escape(),
 ];
 
