@@ -8,12 +8,24 @@ async function getUser(username) {
     return rows[0];
 }
 
-async function getUserId(id) {
+async function getUserById(id) {
     const { rows } = await pool.query(
         "SELECT * FROM users WHERE user_id = $1",
         [id]
     );
     return rows[0];
+}
+
+async function getClubs() {
+    const { rows } = await pool.query(`SELECT * FROM clubs;`);
+    return rows;
+}
+
+async function createClub(name, password, creatorId) {
+    await pool.query(
+        `INSERT INTO clubs (name, password, creator_id) VALUES ($1, $2, $3)`,
+        [name, password, creatorId]
+    );
 }
 
 async function registerUser(
@@ -32,6 +44,8 @@ async function registerUser(
 
 module.exports = {
     getUser,
-    getUserId,
+    getUserById,
+    getClubs,
+    createClub,
     registerUser,
 };

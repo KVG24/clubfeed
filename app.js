@@ -69,7 +69,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await db.getUserId(id);
+        const user = await db.getUserById(id);
         done(null, user);
     } catch (err) {
         done(err);

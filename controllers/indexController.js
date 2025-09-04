@@ -16,6 +16,20 @@ function renderLogIn(req, res) {
     res.render("log-in", { errors: null });
 }
 
+async function renderClubs(req, res) {
+    const clubs = await db.getClubs();
+    for (const club of clubs) {
+        club.creator = await db.getUserById(club.creator_id);
+    }
+    res.render("clubs", { clubs, user: req.user });
+}
+
+async function createClub(req, res, next) {
+    const hashedPassword = await bcrypt.hash(req.body.clubPassword, 10);
+    await db.createClub(req.body.clubName, hashedPassword, req.user.user_id);
+    res.redirect("/clubs");
+}
+
 async function registerUser(req, res, next) {
     try {
         const errors = validationResult(req);
@@ -43,7 +57,7 @@ async function registerUser(req, res, next) {
 
 function logIn(req, res, next) {
     passport.authenticate("local", {
-        successRedirect: "/",
+        successRedirect: "/clubs",
         failureRedirect: "/log-in",
     })(req, res, next);
 }
@@ -61,6 +75,8 @@ module.exports = {
     renderIndex,
     renderSignUp,
     renderLogIn,
+    renderClubs,
+    createClub,
     registerUser,
     logIn,
     logOut,

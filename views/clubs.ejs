@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles.css" />
+        <title>ClubFeed: Clubs</title>
+    </head>
+    <body>
+        <h1>Clubs</h1>
+        <h2>Welcome back <%= user.first_name + " " + user.last_name %></h2>
+        <a href="/log-out">Log Out</a>
+        <button onclick="toggleModal(createClubModal)">Create Club</button>
+        <div class="create-club-modal" style="display: none">
+            <form action="/create-club" method="post">
+                <input
+                    type="text"
+                    name="clubName"
+                    id="clubName"
+                    placeholder="Club name"
+                />
+                <input
+                    type="password"
+                    name="clubPassword"
+                    id="clubPassword"
+                    placeholder="Club password"
+                />
+                <button onclick="toggleModal(createClubModal)">Close</button>
+                <button type="submit">Create club</button>
+            </form>
+        </div>
+        <div class="clubs-container">
+            <% if (clubs) { %> <% clubs.forEach(club => { %>
+            <div class="club">
+                <h3 class="club-name"><%= club.name %></h3>
+                <p class="club-creator">
+                    Created by: <%= club.creator.first_name %> <%=
+                    club.creator.last_name %> (@<%= club.creator.username %>)
+                </p>
+            </div>
+            <% }) %> <% } %>
+        </div>
+    </body>
+    <script defer>
+        const createClubModal = document.querySelector(".create-club-modal");
+        function toggleModal(modal) {
+            const isHidden =
+                modal.style.display === "none" || modal.style.display === "";
+            modal.style.display = isHidden ? "flex" : "none";
+        }
+    </script>
+</html>
