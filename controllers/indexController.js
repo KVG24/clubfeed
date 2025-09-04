@@ -2,6 +2,7 @@ const pool = require("../db/pool");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const db = require("../db/queries");
 
 function renderIndex(req, res) {
     res.render("index", { user: req.user });
@@ -25,16 +26,13 @@ async function registerUser(req, res, next) {
         }
         const isAdmin = req.body.adminPassword === process.env.ADMIN_PASSWORD;
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        await pool.query(
-            "INSERT INTO users (first_name, last_name, username, password, email, is_Admin) VALUES ($1, $2, $3, $4, $5, $6)",
-            [
-                req.body.firstName,
-                req.body.lastName,
-                req.body.username,
-                hashedPassword,
-                req.body.email,
-                isAdmin,
-            ]
+        await db.registerUser(
+            req.body.firstName,
+            req.body.lastName,
+            req.body.username,
+            hashedPassword,
+            req.body.email,
+            isAdmin
         );
         res.redirect("/log-in");
     } catch (err) {
