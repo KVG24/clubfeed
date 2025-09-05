@@ -1,0 +1,172 @@
+:root {
+    --btn-accent: #009ffd;
+    --btn-hover: #ffa400;
+    --secondary-bg: #35383d;
+    --light-bg: #eaf6ff;
+    --dark-bg: #232528;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-bg);
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.welcome-text {
+    font-size: 1.3rem;
+    max-width: 800px;
+}
+
+li {
+    margin-bottom: 1rem;
+    list-style: none;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+}
+
+.sign-up-link,
+.log-in-link,
+.log-out-link {
+    text-decoration: none;
+    padding: 1rem;
+    color: black;
+    background-color: var(--btn-accent);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    font-weight: 700;
+}
+
+.log-out-link {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.sign-up-link:hover,
+.log-in-link:hover,
+.log-out-link:hover {
+    background-color: var(--btn-hover);
+}
+
+.existing-link {
+    color: var(--btn-accent);
+}
+
+.welcome-back-text {
+    position: absolute;
+    top: 1rem;
+    left: 10rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 3px;
+    border: none;
+    background-color: var(--light-bg);
+    width: 270px;
+}
+
+.submit-btn,
+.create-club-btn,
+.cc-btn-close,
+.cc-btn-create {
+    padding: 1rem;
+    background-color: var(--btn-accent);
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 900;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover,
+.create-club-btn:hover,
+.cc-btn-close:hover,
+.cc-btn-create:hover {
+    background-color: var(--btn-hover);
+}
+
+.cc-modal-btn-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.create-club-modal {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: var(--secondary-bg);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.clubs-container {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.club {
+    padding: 1rem;
+    border: 2px solid var(--btn-hover);
+    border-radius: 5px;
+}
+
+.club-btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.club-btn {
+    padding: 0.7rem;
+    background-color: var(--btn-accent);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .welcome-back-text {
+        display: none;
+    }
+    .sign-up-link,
+    .log-in-link,
+    .log-out-link,
+    .submit-btn,
+    .create-club-btn,
+    .cc-btn-close,
+    .cc-btn-create {
+        padding: 0.5rem;
+    }
+}

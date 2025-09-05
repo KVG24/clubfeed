@@ -17,11 +17,11 @@
             </ul>
         </div>
         <% } %>
-        <form action="/log-in" method="POST">
+        <form class="log-in-form" action="/log-in" method="POST">
             <input
                 id="username"
                 name="username"
-                placeholder="username"
+                placeholder="Username"
                 type="text"
             />
             <input
@@ -30,7 +30,11 @@
                 type="password"
                 placeholder="Password"
             />
-            <button type="submit">Log In</button>
+            <button class="submit-btn" type="submit">Log In</button>
+            <p>
+                Not signed up?
+                <a class="existing-link" href="/sign-up">Sign Up</a>
+            </p>
         </form>
     </body>
 </html>

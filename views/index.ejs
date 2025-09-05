@@ -8,12 +8,42 @@
     </head>
     <body>
         <% if (!user) { %>
-        <h1>Welcome to ClubFeed</h1>
-        <a href="/sign-up">Register</a>
-        <a href="/log-in">Log In</a>
+        <h1 class="title">ClubFeed</h1>
+        <div class="welcome-text">
+            <p>Welcome to ClubFeed</p>
+            <p>Step into a world of semi-secret societies.</p>
+            <ul>
+                <li>
+                    🔑 <b>Register & Log In</b> - Join the community and unlock
+                    hidden details.
+                </li>
+                <li>
+                    🏛️ <b>Create Clubs</b> - Set up a private club, protected by
+                    a password.
+                </li>
+                <li>
+                    🧱 <b>Message Walls</b> - Post and share with your members
+                    in a shared space.
+                </li>
+                <li>
+                    👀 <b>Semi secret</b> - Outsiders see only the words, never
+                    the who or the when. Members see the whole story.
+                </li>
+            </ul>
+            <p>
+                ClubFeed is where conversations live in the open, but true
+                context belongs only to those inside.
+            </p>
+        </div>
+        <div class="links">
+            <a class="sign-up-link" href="/sign-up">Register</a>
+            <a class="log-in-link" href="/log-in">Log In</a>
+        </div>
         <% } else { %>
-        <h1>Welcome back <%= user.first_name + " " + user.last_name %></h1>
-        <a href="/log-out">Log Out</a>
+        <h1 class="title">
+            Welcome back <%= user.first_name + " " + user.last_name %>
+        </h1>
+        <a class="log-out-link" href="/log-out">Log Out</a>
         <% } %>
     </body>
 </html>

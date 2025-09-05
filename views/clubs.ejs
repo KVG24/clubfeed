@@ -7,10 +7,14 @@
         <title>ClubFeed: Clubs</title>
     </head>
     <body>
-        <h1>Clubs</h1>
-        <h2>Welcome back <%= user.first_name + " " + user.last_name %></h2>
-        <a href="/log-out">Log Out</a>
-        <button onclick="toggleModal(createClubModal)">Create Club</button>
+        <h1 class="title">Clubs</h1>
+        <h2 class="welcome-back-text">
+            Welcome back <%= user.first_name + " " + user.last_name %>
+        </h2>
+        <a class="log-out-link" href="/log-out">Log Out</a>
+        <button class="create-club-btn" onclick="toggleModal(createClubModal)">
+            Create Club
+        </button>
         <div class="create-club-modal" style="display: none">
             <form action="/create-club" method="post">
                 <input
@@ -18,15 +22,27 @@
                     name="clubName"
                     id="clubName"
                     placeholder="Club name"
+                    required
                 />
                 <input
                     type="password"
                     name="clubPassword"
                     id="clubPassword"
                     placeholder="Club password"
+                    required
                 />
-                <button onclick="toggleModal(createClubModal)">Close</button>
-                <button type="submit">Create club</button>
+                <div class="cc-modal-btn-container">
+                    <button
+                        class="cc-btn-close"
+                        onclick="toggleModal(createClubModal)"
+                        type="button"
+                    >
+                        Close
+                    </button>
+                    <button class="cc-btn-create" type="submit">
+                        Create club
+                    </button>
+                </div>
             </form>
         </div>
         <div class="clubs-container">
@@ -37,16 +53,27 @@
                     Created by: <%= club.creator.first_name %> <%=
                     club.creator.last_name %> (@<%= club.creator.username %>)
                 </p>
+                <div class="club-btn-container">
+                    <button class="club-btn" type="button">
+                        View message wall
+                    </button>
+                    <button class="club-btn" type="button">Join</button>
+                </div>
             </div>
             <% }) %> <% } %>
         </div>
     </body>
     <script defer>
         const createClubModal = document.querySelector(".create-club-modal");
+        //const clubsContainer = document.querySelector(".clubs-container");
         function toggleModal(modal) {
-            const isHidden =
-                modal.style.display === "none" || modal.style.display === "";
-            modal.style.display = isHidden ? "flex" : "none";
+            if (modal.style.display == "none") {
+                modal.style.display = "flex";
+                //clubsContainer.style.opacity = "0.1";
+            } else {
+                modal.style.display = "none";
+                //clubsContainer.style.opacity = "1";
+            }
         }
     </script>
 </html>
