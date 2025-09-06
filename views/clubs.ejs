@@ -54,9 +54,9 @@
                     club.creator.last_name %> (@<%= club.creator.username %>)
                 </p>
                 <div class="club-btn-container">
-                    <button class="club-btn" type="button">
-                        View message wall
-                    </button>
+                    <a class="club-btn" href="/clubs/<%= club.club_id %>"
+                        >View message wall</a
+                    >
                     <button class="club-btn" type="button">Join</button>
                 </div>
             </div>

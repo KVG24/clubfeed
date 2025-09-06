@@ -147,13 +147,28 @@ input {
     align-items: center;
 }
 
-.club-btn {
+.club-btn,
+.btn {
     padding: 0.7rem;
     background-color: var(--btn-accent);
     border: none;
     border-radius: 3px;
     cursor: pointer;
     font-weight: 700;
+    text-decoration: none;
+    color: black;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    border: 2px solid var(--btn-hover);
+    border-radius: 5px;
+    padding: 1rem;
 }
 
 @media (max-width: 768px) {

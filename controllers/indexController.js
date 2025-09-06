@@ -24,6 +24,12 @@ async function renderClubs(req, res) {
     res.render("clubs", { clubs, user: req.user });
 }
 
+async function renderSelectedClub(req, res) {
+    const club = await db.getClubById(req.params.id);
+    const messages = await db.getClubMessages(req.params.id);
+    res.render("club-page", { club, messages });
+}
+
 async function createClub(req, res, next) {
     const hashedPassword = await bcrypt.hash(req.body.clubPassword, 10);
     await db.createClub(req.body.clubName, hashedPassword, req.user.user_id);
@@ -76,6 +82,7 @@ module.exports = {
     renderSignUp,
     renderLogIn,
     renderClubs,
+    renderSelectedClub,
     createClub,
     registerUser,
     logIn,

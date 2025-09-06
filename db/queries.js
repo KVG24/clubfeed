@@ -21,6 +21,25 @@ async function getClubs() {
     return rows;
 }
 
+async function getClubById(id) {
+    const { rows } = await pool.query(
+        `SELECT * FROM clubs WHERE club_id = $1`,
+        [id]
+    );
+    return rows;
+}
+
+async function getClubMessages(club_id) {
+    const { rows } = await pool.query(
+        `SELECT *
+        FROM messages
+        WHERE club_id = $1
+        ORDER BY created_at DESC;`,
+        [club_id]
+    );
+    return rows;
+}
+
 async function createClub(name, password, creatorId) {
     await pool.query(
         `INSERT INTO clubs (name, password, creator_id) VALUES ($1, $2, $3)`,
@@ -46,6 +65,8 @@ module.exports = {
     getUser,
     getUserById,
     getClubs,
+    getClubById,
+    getClubMessages,
     createClub,
     registerUser,
 };
