@@ -40,6 +40,21 @@ async function getClubMessages(club_id) {
     return rows;
 }
 
+async function getClubPassword(club_id) {
+    const { rows } = await pool.query(
+        `SELECT password
+     FROM clubs
+     WHERE club_id = $1`,
+        [club_id]
+    );
+
+    if (rows.length === 0) {
+        throw new Error("Club not found");
+    }
+
+    return rows[0].password; // return the string
+}
+
 async function createClub(name, password, creatorId) {
     await pool.query(
         `INSERT INTO clubs (name, password, creator_id) VALUES ($1, $2, $3)`,
@@ -61,12 +76,21 @@ async function registerUser(
     );
 }
 
+async function registerMembership(user_id, club_id) {
+    await pool.query(
+        `INSERT INTO memberships (user_id, club_id) VALUES ($1, $2)`,
+        [user_id, club_id]
+    );
+}
+
 module.exports = {
     getUser,
     getUserById,
     getClubs,
     getClubById,
     getClubMessages,
+    getClubPassword,
     createClub,
     registerUser,
+    registerMembership,
 };

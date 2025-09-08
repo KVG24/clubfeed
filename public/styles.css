@@ -186,6 +186,14 @@ input {
     z-index: 100;
 }
 
+.error {
+    position: absolute;
+    top: 15%;
+    left: 20px;
+    font-size: 1rem;
+    color: red;
+}
+
 @media (max-width: 768px) {
     .welcome-back-text {
         display: none;
@@ -198,5 +206,8 @@ input {
     .cc-btn-close,
     .cc-btn-create {
         padding: 0.5rem;
+    }
+    .club {
+        width: 90%;
     }
 }

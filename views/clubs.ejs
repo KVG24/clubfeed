@@ -16,7 +16,7 @@
             Create Club
         </button>
         <div class="create-club-modal" style="display: none">
-            <form action="/create-club" method="post">
+            <form action="/clubs/create" method="post">
                 <input
                     type="text"
                     name="clubName"
@@ -68,8 +68,7 @@
                 >
                     <h2>Join <%= club.name %></h2>
                     <input
-                        type="text"
-                        id="club-password-input"
+                        type="password"
                         name="clubPasswordJoin"
                         placeholder="Club password"
                     />
@@ -81,6 +80,9 @@
             <% }) %> <% } %>
         </div>
         <div class="modal-overlay" style="display: none"></div>
+        <% if (error) { %>
+        <div class="error"><%= error %></div>
+        <% } %>
     </body>
     <script defer>
         const overlay = document.querySelector(".modal-overlay");
