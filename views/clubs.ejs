@@ -12,7 +12,7 @@
             Welcome back <%= user.first_name + " " + user.last_name %>
         </h2>
         <a class="log-out-link" href="/log-out">Log Out</a>
-        <button class="create-club-btn" onclick="toggleModal(createClubModal)">
+        <button class="create-club-btn" onclick="openCreateClubModal()">
             Create Club
         </button>
         <div class="create-club-modal" style="display: none">
@@ -31,18 +31,8 @@
                     placeholder="Club password"
                     required
                 />
-                <div class="cc-modal-btn-container">
-                    <button
-                        class="cc-btn-close"
-                        onclick="toggleModal(createClubModal)"
-                        type="button"
-                    >
-                        Close
-                    </button>
-                    <button class="cc-btn-create" type="submit">
-                        Create club
-                    </button>
-                </div>
+
+                <button class="cc-btn-create" type="submit">Create club</button>
             </form>
         </div>
         <div class="clubs-container">
@@ -57,23 +47,69 @@
                     <a class="club-btn" href="/clubs/<%= club.club_id %>"
                         >View message wall</a
                     >
-                    <button class="club-btn" type="button">Join</button>
+                    <button
+                        class="club-btn"
+                        onclick="openJoinClubModal('join-<%= club.club_id %>')"
+                        type="button"
+                    >
+                        Join
+                    </button>
                 </div>
+            </div>
+            <div
+                class="join-club-modal"
+                id="join-<%= club.club_id %>"
+                style="display: none"
+            >
+                <form
+                    class="join-club-form"
+                    action="/clubs/join/<%= club.club_id %>"
+                    method="post"
+                >
+                    <h2>Join <%= club.name %></h2>
+                    <input
+                        type="text"
+                        id="club-password-input"
+                        name="clubPasswordJoin"
+                        placeholder="Club password"
+                    />
+                    <button class="join-club-submit-btn" type="submit">
+                        Join
+                    </button>
+                </form>
             </div>
             <% }) %> <% } %>
         </div>
+        <div class="modal-overlay" style="display: none"></div>
     </body>
     <script defer>
-        const createClubModal = document.querySelector(".create-club-modal");
-        //const clubsContainer = document.querySelector(".clubs-container");
-        function toggleModal(modal) {
-            if (modal.style.display == "none") {
-                modal.style.display = "flex";
-                //clubsContainer.style.opacity = "0.1";
-            } else {
-                modal.style.display = "none";
-                //clubsContainer.style.opacity = "1";
-            }
+        const overlay = document.querySelector(".modal-overlay");
+
+        function openCreateClubModal() {
+            overlay.style.display = "block";
+            document.querySelector(".create-club-modal").style.display = "flex";
         }
+
+        function openJoinClubModal(id) {
+            // Close all
+            document
+                .querySelectorAll(".join-club-modal")
+                .forEach((modal) => (modal.style.display = "none"));
+
+            // Show selected modal + overlay
+            document.getElementById(id).style.display = "flex";
+            overlay.style.display = "block";
+        }
+
+        function closeModals() {
+            document
+                .querySelectorAll(".join-club-modal")
+                .forEach((modal) => (modal.style.display = "none"));
+            document.querySelector(".create-club-modal").style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        // Clicking overlay closes all modals
+        overlay.addEventListener("click", closeModals);
     </script>
 </html>
