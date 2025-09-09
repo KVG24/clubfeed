@@ -39,6 +39,7 @@
             <% if (clubs) { %> <% clubs.forEach(club => { %>
             <div class="club">
                 <h3 class="club-name"><%= club.name %></h3>
+                <p class="num-of-members">Members: <%= club.numOfMembers %></p>
                 <p class="club-creator">
                     Created by: <%= club.creator.first_name %> <%=
                     club.creator.last_name %> (@<%= club.creator.username %>)

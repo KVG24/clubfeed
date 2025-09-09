@@ -18,9 +18,6 @@ function renderLogIn(req, res) {
 
 async function renderClubs(req, res) {
     const clubs = await db.getClubs();
-    for (const club of clubs) {
-        club.creator = await db.getUserById(club.creator_id);
-    }
     res.render("clubs", { clubs, user: req.user, error: false });
 }
 
@@ -36,11 +33,7 @@ async function createClub(req, res, next) {
     res.redirect("/clubs");
 }
 
-async function joinClub(req, res, next) {
-    const clubs = await db.getClubs();
-    for (const club of clubs) {
-        club.creator = await db.getUserById(club.creator_id);
-    }
+async function joinClub(req, res) {
     const clubPassword = await db.getClubPassword(req.params.id);
     const result = await bcrypt.compare(
         req.body.clubPasswordJoin,
@@ -48,15 +41,16 @@ async function joinClub(req, res, next) {
     );
 
     if (result) {
-        db.registerMembership(req.user.user_id, req.params.id);
+        await db.registerMembership(req.user.user_id, req.params.id);
         return res.redirect(`/clubs/${req.params.id}`);
-    } else {
-        return res.render("clubs", {
-            clubs,
-            user: req.user,
-            error: "Wrong password",
-        });
     }
+
+    const clubs = await db.getClubs();
+    return res.render("clubs", {
+        clubs,
+        user: req.user,
+        error: "Wrong password",
+    });
 }
 
 async function registerUser(req, res, next) {
