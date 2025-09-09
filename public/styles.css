@@ -34,6 +34,11 @@ li {
     list-style: none;
 }
 
+p {
+    padding: 0;
+    margin: 0;
+}
+
 .links {
     display: flex;
     gap: 1rem;
@@ -143,6 +148,11 @@ input {
     padding: 1rem;
     border: 2px solid var(--btn-hover);
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    min-width: 250px;
 }
 
 .club-btn-container {
@@ -151,13 +161,33 @@ input {
     align-items: center;
 }
 
-.club-btn,
+.club-btn-join,
+.club-link-view,
 .btn {
     padding: 0.7rem;
     background-color: var(--btn-accent);
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    font-weight: 700;
+    text-decoration: none;
+    color: black;
+}
+
+.club-btn-join {
+    font-weight: 900;
+}
+
+.club-btn-join:hover,
+.club-link-view:hover {
+    background-color: var(--btn-hover);
+}
+
+.joined {
+    padding: 0.7rem;
+    background-color: var(--btn-hover);
+    border: none;
+    border-radius: 3px;
     font-weight: 700;
     text-decoration: none;
     color: black;

@@ -18,6 +18,12 @@ function renderLogIn(req, res) {
 
 async function renderClubs(req, res) {
     const clubs = await db.getClubs();
+    for (const club of clubs) {
+        club.isMember = await db.checkMembership(
+            req.user.user_id,
+            club.club_id
+        );
+    }
     res.render("clubs", { clubs, user: req.user, error: false });
 }
 

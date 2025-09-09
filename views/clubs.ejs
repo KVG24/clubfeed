@@ -9,7 +9,7 @@
     <body>
         <h1 class="title">Clubs</h1>
         <h2 class="welcome-back-text">
-            Welcome back <%= user.first_name + " " + user.last_name %>
+            Welcome back, <%= user.first_name + " " + user.last_name %>
         </h2>
         <a class="log-out-link" href="/log-out">Log Out</a>
         <button class="create-club-btn" onclick="openCreateClubModal()">
@@ -45,16 +45,20 @@
                     club.creator.last_name %> (@<%= club.creator.username %>)
                 </p>
                 <div class="club-btn-container">
-                    <a class="club-btn" href="/clubs/<%= club.club_id %>"
+                    <a class="club-link-view" href="/clubs/<%= club.club_id %>"
                         >View message wall</a
                     >
+                    <% if (club.isMember) { %>
+                    <p class="joined">Joined</p>
+                    <% } else { %>
                     <button
-                        class="club-btn"
+                        class="club-btn-join"
                         onclick="openJoinClubModal('join-<%= club.club_id %>')"
                         type="button"
                     >
                         Join
                     </button>
+                    <% } %>
                 </div>
             </div>
             <div

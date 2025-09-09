@@ -69,8 +69,8 @@ async function getClubMessages(club_id) {
 async function getClubPassword(club_id) {
     const { rows } = await pool.query(
         `SELECT password
-     FROM clubs
-     WHERE club_id = $1`,
+        FROM clubs
+        WHERE club_id = $1`,
         [club_id]
     );
 
@@ -109,6 +109,18 @@ async function registerMembership(user_id, club_id) {
     );
 }
 
+async function checkMembership(user_id, club_id) {
+    const { rows } = await pool.query(
+        `SELECT EXISTS (
+       SELECT 1 
+       FROM memberships 
+       WHERE user_id = $1 AND club_id = $2
+     ) AS is_member`,
+        [user_id, club_id]
+    );
+    return rows[0].is_member;
+}
+
 module.exports = {
     getUser,
     getUserById,
@@ -119,4 +131,5 @@ module.exports = {
     createClub,
     registerUser,
     registerMembership,
+    checkMembership,
 };
