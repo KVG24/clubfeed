@@ -14,5 +14,6 @@ router.get("/clubs", indexController.renderClubs);
 router.post("/clubs/create", indexController.createClub);
 router.get("/clubs/:id", indexController.renderSelectedClub);
 router.post("/clubs/join/:id", indexController.joinClub);
+router.post("/clubs/:id/post-message", indexController.postMessage);
 
 module.exports = router;

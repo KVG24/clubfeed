@@ -52,13 +52,17 @@ async function getClubById(id) {
         `SELECT * FROM clubs WHERE club_id = $1`,
         [id]
     );
-    return rows;
+    return rows[0];
 }
 
 async function getClubMessages(club_id) {
     const { rows } = await pool.query(
-        `SELECT *
-        FROM messages
+        `SELECT
+        m.text,
+        to_char(m.created_at, 'DD-MM HH24:MI') as created_at,
+        u.username
+        FROM messages m
+        JOIN users u ON m.user_id = u.user_id
         WHERE club_id = $1
         ORDER BY created_at DESC;`,
         [club_id]
@@ -85,6 +89,13 @@ async function createClub(name, password, creatorId) {
     await pool.query(
         `INSERT INTO clubs (name, password, creator_id) VALUES ($1, $2, $3)`,
         [name, password, creatorId]
+    );
+}
+
+async function postMessage(user_id, club_id, text) {
+    await pool.query(
+        `INSERT INTO messages (user_id, club_id, text) VALUES ($1, $2, $3)`,
+        [user_id, club_id, text]
     );
 }
 
@@ -129,6 +140,7 @@ module.exports = {
     getClubMessages,
     getClubPassword,
     createClub,
+    postMessage,
     registerUser,
     registerMembership,
     checkMembership,

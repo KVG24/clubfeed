@@ -30,7 +30,16 @@ async function renderClubs(req, res) {
 async function renderSelectedClub(req, res) {
     const club = await db.getClubById(req.params.id);
     const messages = await db.getClubMessages(req.params.id);
-    res.render("club-page", { club, messages });
+    const advancedRights =
+        req.user &&
+        (Number(club.creator_id) === Number(req.user.user_id) ||
+            !!req.user.isAdmin);
+    res.render("club-page", { club, messages, advancedRights, user: req.user });
+}
+
+async function postMessage(req, res) {
+    await db.postMessage(req.user.user_id, req.params.id, req.body.message);
+    res.redirect(`/clubs/${req.params.id}`);
 }
 
 async function createClub(req, res, next) {
@@ -106,6 +115,7 @@ module.exports = {
     renderLogIn,
     renderClubs,
     renderSelectedClub,
+    postMessage,
     createClub,
     joinClub,
     registerUser,

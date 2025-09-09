@@ -10,12 +10,24 @@
         <h1><%= club.name %></h1>
         <h2>Message Wall</h2>
         <a class="btn" href="/clubs">Back to clubs</a>
+        <% if (advancedRights) { %>
+        <form action="/clubs/<%= club.club_id %>/post-message" method="post">
+            <textarea name="message" id="message" cols="50" rows="3"></textarea>
+            <button type="submit">Post</button>
+        </form>
+        <% } %>
         <div class="messages">
-            <% messages.forEach(message => { %>
+            <% messages.forEach(message => { %> <% if (advancedRights) { %>
             <div class="message">
-                <p><%= message.text %></p>
+                <p class="msg-username"><%= message.username %>:</p>
+                <p class="msg-text"><%= message.text %></p>
+                <p class="msg-date"><%= message.created_at %></p>
             </div>
-            <% }) %>
+            <% } else { %>
+            <div class="message">
+                <p class="msg-text"><%= message.text %></p>
+            </div>
+            <% } %> <% }) %>
         </div>
     </body>
 </html>
