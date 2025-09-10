@@ -1,5 +1,13 @@
 const pool = require("./pool");
 
+async function getUser(username) {
+    const { rows } = await pool.query(
+        "SELECT * FROM users WHERE username = $1",
+        [username]
+    );
+    return rows[0];
+}
+
 async function getUserById(id) {
     const { rows } = await pool.query(
         "SELECT * FROM users WHERE user_id = $1",
@@ -84,11 +92,21 @@ async function createClub(name, password, creatorId) {
     );
 }
 
+async function deleteClub(club_id) {
+    await pool.query(`DELETE FROM clubs WHERE club_id = $1`, [club_id]);
+}
+
 async function postMessage(user_id, club_id, text) {
     await pool.query(
         `INSERT INTO messages (user_id, club_id, text) VALUES ($1, $2, $3)`,
         [user_id, club_id, text]
     );
+}
+
+async function deleteMessage(message_id) {
+    await pool.query(`DELETE FROM messages WHERE message_id = $1`, [
+        message_id,
+    ]);
 }
 
 async function registerUser(
@@ -125,13 +143,16 @@ async function checkMembership(user_id, club_id) {
 }
 
 module.exports = {
+    getUser,
     getUserById,
     getClubs,
     getClubById,
     getClubMessages,
     getClubPassword,
     createClub,
+    deleteClub,
     postMessage,
+    deleteMessage,
     registerUser,
     registerMembership,
     checkMembership,

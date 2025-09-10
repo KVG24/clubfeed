@@ -4,10 +4,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/styles.css" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,1,0&icon_names=account_box"
-        />
         <title>ClubFeed: Clubs</title>
     </head>
     <body>
@@ -20,7 +16,7 @@
             Create Club
         </button>
         <div class="create-club-modal" style="display: none">
-            <form action="/clubs/create" method="post">
+            <form class="create-club-form" action="/clubs/create" method="post">
                 <input
                     type="text"
                     name="clubName"
@@ -42,9 +38,17 @@
         <div class="clubs-container">
             <% if (clubs) { %> <% clubs.forEach(club => { %>
             <div class="club">
+                <% if (user.is_admin || user.user_id == club.creator_id) { %>
+                    <form class="delete-club-form" action="/clubs/delete/<%= club.club_id %>" method="post">
+                        <button 
+                        onclick="return confirm('Are you sure you want to delete <%= club.name %>');"
+                        type="submit"><img class="delete-club-icon" src="/icons/delete.svg" /></button>
+                    </form> 
+                </a>
+                <% } %>
                 <h3 class="club-name"><%= club.name %></h3>
                 <p class="num-of-members">
-                    <span class="material-symbols-outlined"> account_box </span>
+                    <img src="/icons/account_box.svg" />
                     <%= club.numOfMembers %>
                 </p>
                 <p class="club-creator">

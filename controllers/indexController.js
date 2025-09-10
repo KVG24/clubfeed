@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const db = require("../db/queries");
+const pool = require("../db/pool");
 
 function renderIndex(req, res) {
     res.render("index", { user: req.user });
@@ -46,6 +47,19 @@ async function postMessage(req, res) {
 async function createClub(req, res, next) {
     const hashedPassword = await bcrypt.hash(req.body.clubPassword, 10);
     await db.createClub(req.body.clubName, hashedPassword, req.user.user_id);
+    res.redirect("/clubs");
+}
+
+async function deleteClub(req, res) {
+    const club = await db.getClubById(req.params.id);
+    const isAdmin = req.user?.isAdmin;
+    const isCreator = Number(club.creator_id) === Number(req.user.user_id);
+
+    if (!isAdmin && !isCreator) {
+        return res.status(403).send("Not authorized to delete this club.");
+    }
+
+    await db.deleteClub(req.params.id);
     res.redirect("/clubs");
 }
 
@@ -118,6 +132,7 @@ module.exports = {
     renderSelectedClub,
     postMessage,
     createClub,
+    deleteClub,
     joinClub,
     registerUser,
     logIn,
