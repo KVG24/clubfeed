@@ -4,6 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,1,0&icon_names=account_box"
+        />
         <title>ClubFeed: Clubs</title>
     </head>
     <body>
@@ -39,7 +43,10 @@
             <% if (clubs) { %> <% clubs.forEach(club => { %>
             <div class="club">
                 <h3 class="club-name"><%= club.name %></h3>
-                <p class="num-of-members">Members: <%= club.numOfMembers %></p>
+                <p class="num-of-members">
+                    <span class="material-symbols-outlined"> account_box </span>
+                    <%= club.numOfMembers %>
+                </p>
                 <p class="club-creator">
                     Created by: <%= club.creator.first_name %> <%=
                     club.creator.last_name %> (@<%= club.creator.username %>)

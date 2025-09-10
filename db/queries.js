@@ -59,7 +59,7 @@ async function getClubMessages(club_id) {
     const { rows } = await pool.query(
         `SELECT
         m.text,
-        to_char(m.created_at, 'DD-MM HH24:MI') as created_at,
+        to_char(m.created_at, 'DD-MM-YY HH24:MI') as created_at,
         u.username
         FROM messages m
         JOIN users u ON m.user_id = u.user_id
