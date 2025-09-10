@@ -1,4 +1,3 @@
-const pool = require("../db/pool");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
@@ -30,10 +29,12 @@ async function renderClubs(req, res) {
 async function renderSelectedClub(req, res) {
     const club = await db.getClubById(req.params.id);
     const messages = await db.getClubMessages(req.params.id);
+    const isMember = await db.checkMembership(req.user.user_id, club.club_id);
     const advancedRights =
         req.user &&
-        (Number(club.creator_id) === Number(req.user.user_id) ||
-            !!req.user.isAdmin);
+        (isMember ||
+            req.user.is_admin ||
+            Number(club.creator_id) === Number(req.user.user_id));
     res.render("club-page", { club, messages, advancedRights, user: req.user });
 }
 
