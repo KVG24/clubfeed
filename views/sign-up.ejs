@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="/styles.css" />
         <title>ClubFeed: Sign-Up</title>
     </head>
-    <body>
+    <body style="justify-content: center">
         <h1>Sign Up</h1>
         <% if (errors) { %>
         <div class="errors">
@@ -28,37 +28,48 @@
                 id="firstName"
                 name="firstName"
                 placeholder="First Name"
+                required
             />
             <input
                 type="text"
                 id="lastName"
                 name="lastName"
                 placeholder="Last Name"
+                required
             />
             <input
                 id="username"
                 name="username"
                 placeholder="Username"
                 type="text"
+                required
             />
             <input
                 id="password"
                 name="password"
                 type="password"
                 placeholder="Password"
+                required
             />
             <input
                 id="passwordConfirmation"
                 name="passwordConfirmation"
                 type="password"
                 placeholder="Confirm Password"
+                required
             />
-            <input type="email" name="email" id="email" placeholder="Email" />
+            <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                required
+            />
             <input
                 type="password"
                 name="adminPassword"
                 id="adminPassword"
-                placeholder="Admin Password"
+                placeholder="(Optional) Admin Password"
             />
             <button class="submit-btn" type="submit">Sign Up</button>
             <p>

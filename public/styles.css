@@ -22,19 +22,40 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
     gap: 1rem;
+}
+
+.title {
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: var(--text-bg);
+}
+
+.blue {
+    color: var(--btn-accent);
+}
+
+.orange {
+    color: var(--btn-hover);
 }
 
 .welcome-text {
     font-size: 1.3rem;
     max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1,
 h2 {
     padding: 0;
     margin: 0;
+}
+
+h1 {
+    margin-top: 1rem;
 }
 
 li {
