@@ -3,8 +3,12 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const db = require("../db/queries");
 
-function renderIndex(req, res) {
-    res.render("index", { user: req.user });
+async function renderIndex(req, res) {
+    if (req.user) {
+        res.redirect("/clubs");
+    } else {
+        res.render("index", { user: req.user });
+    }
 }
 
 function renderSignUp(req, res) {
