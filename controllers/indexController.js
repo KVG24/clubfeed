@@ -12,7 +12,7 @@ function renderSignUp(req, res) {
 }
 
 function renderLogIn(req, res) {
-    res.render("log-in", { errors: null });
+    res.render("log-in", { error: null });
 }
 
 async function renderClubs(req, res) {
@@ -121,9 +121,17 @@ async function registerUser(req, res, next) {
 }
 
 function logIn(req, res, next) {
-    passport.authenticate("local", {
-        successRedirect: "/clubs",
-        failureRedirect: "/log-in",
+    passport.authenticate("local", (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+            return res.render("log-in", {
+                error: info?.message,
+            });
+        }
+        req.logIn(user, (err) => {
+            if (err) return next(err);
+            return res.redirect("/clubs");
+        });
     })(req, res, next);
 }
 

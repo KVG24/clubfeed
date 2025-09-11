@@ -58,6 +58,10 @@ h1 {
     margin-top: 1rem;
 }
 
+ul {
+    padding: 0;
+}
+
 li {
     margin-bottom: 1rem;
     list-style: none;
@@ -350,7 +354,13 @@ input {
     top: 100px;
     left: 20px;
     font-size: 1rem;
-    color: red;
+    color: var(--btn-hover);
+}
+
+.log-in-error,
+.errors {
+    font-size: 1rem;
+    color: var(--btn-hover);
 }
 
 @media (max-width: 768px) {
