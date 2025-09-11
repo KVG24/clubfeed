@@ -16,13 +16,7 @@ function renderLogIn(req, res) {
 }
 
 async function renderClubs(req, res) {
-    const clubs = await db.getClubs();
-    for (const club of clubs) {
-        club.isMember = await db.checkMembership(
-            req.user.user_id,
-            club.club_id
-        );
-    }
+    const clubs = await db.getClubs(req.user.user_id);
     res.render("clubs", { clubs, user: req.user, error: false });
 }
 
@@ -85,14 +79,14 @@ async function joinClub(req, res) {
     if (result) {
         await db.registerMembership(req.user.user_id, req.params.id);
         return res.redirect(`/clubs/${req.params.id}`);
+    } else {
+        const clubs = await db.getClubs(req.user.user_id);
+        return res.render("clubs", {
+            clubs,
+            user: req.user,
+            error: "Wrong password",
+        });
     }
-
-    const clubs = await db.getClubs();
-    return res.render("clubs", {
-        clubs,
-        user: req.user,
-        error: "Wrong password",
-    });
 }
 
 async function registerUser(req, res, next) {

@@ -15,6 +15,9 @@
         <button class="create-club-btn" onclick="openCreateClubModal()">
             Create Club
         </button>
+        <% if (error) { %>
+        <div class="join-club-error"><%= error %></div>
+        <% } %>
         <div class="create-club-modal" style="display: none">
             <form class="create-club-form" action="/clubs/create" method="post">
                 <input
@@ -59,7 +62,7 @@
                     <a class="club-link-view" href="/clubs/<%= club.club_id %>"
                         >View message wall</a
                     >
-                    <% if (club.isMember) { %>
+                    <% if (club.isMember || club.creator_id == user.user_id) { %>
                     <p class="joined">Joined</p>
                     <% } else { %>
                     <button
@@ -96,9 +99,6 @@
             <% }) %> <% } %>
         </div>
         <div class="modal-overlay" style="display: none"></div>
-        <% if (error) { %>
-        <div class="error"><%= error %></div>
-        <% } %>
     </body>
     <script defer>
         const overlay = document.querySelector(".modal-overlay");

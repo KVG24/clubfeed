@@ -16,8 +16,9 @@ async function getUserById(id) {
     return rows[0];
 }
 
-async function getClubs() {
-    const { rows } = await pool.query(`
+async function getClubs(currentUserId) {
+    const { rows } = await pool.query(
+        `
     SELECT 
       c.club_id,
       c.name,
@@ -25,15 +26,19 @@ async function getClubs() {
       u.first_name,
       u.last_name,
       u.username,
-      COUNT(m.user_id) AS num_of_members
+      COUNT(m_all.user_id) AS num_of_members,
+      CASE WHEN m_user.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isMember"
     FROM clubs c
     JOIN users u ON c.creator_id = u.user_id
-    LEFT JOIN memberships m ON c.club_id = m.club_id
-    GROUP BY c.club_id, u.user_id
+    LEFT JOIN memberships m_all ON c.club_id = m_all.club_id
+    LEFT JOIN memberships m_user 
+           ON c.club_id = m_user.club_id AND m_user.user_id = $1
+    GROUP BY c.club_id, u.user_id, m_user.user_id
     ORDER BY c.club_id
-  `);
+  `,
+        [currentUserId]
+    );
 
-    // Prepare data for EJS rendering
     return rows.map((r) => ({
         club_id: r.club_id,
         name: r.name,
@@ -44,6 +49,7 @@ async function getClubs() {
             username: r.username,
         },
         numOfMembers: Number(r.num_of_members),
+        isMember: r.isMember,
     }));
 }
 

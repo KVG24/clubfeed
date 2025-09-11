@@ -349,18 +349,15 @@ input {
     z-index: 100;
 }
 
-.error {
-    position: absolute;
-    top: 100px;
-    left: 20px;
+.log-in-error,
+.errors,
+.join-club-error {
     font-size: 1rem;
     color: var(--btn-hover);
 }
 
-.log-in-error,
-.errors {
-    font-size: 1rem;
-    color: var(--btn-hover);
+.join-club-error {
+    font-size: 2rem;
 }
 
 @media (max-width: 768px) {
