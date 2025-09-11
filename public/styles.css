@@ -5,6 +5,7 @@
     --light-bg: #eaf6ff;
     --dark-bg: #232528;
     --text-bg: #494c53;
+    --text-gray: #858c99;
 }
 
 html,
@@ -201,17 +202,21 @@ input {
     background-color: var(--btn-hover);
 }
 
-.delete-club-form {
+.delete-club-form,
+.delete-msg-form {
     position: absolute;
     right: 5px;
     top: 5px;
     width: max-content;
 }
 
-.delete-club-form button {
+.delete-club-form button,
+.delete-msg-form button {
     background-color: var(--dark-bg);
     border: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
 }
 
 .joined {
@@ -284,6 +289,7 @@ input {
     border-radius: 5px;
     padding: 1rem;
     max-width: 800px;
+    position: relative;
 }
 
 .msg-username {
@@ -304,7 +310,7 @@ input {
     position: relative;
     bottom: -10px;
     left: -10px;
-    color: #858c99;
+    color: var(--text-gray);
 }
 
 .modal-overlay {

@@ -58,9 +58,11 @@ async function getClubById(id) {
 async function getClubMessages(club_id) {
     const { rows } = await pool.query(
         `SELECT
-        m.text,
-        to_char(m.created_at, 'DD-MM-YY HH24:MI') as created_at,
-        u.username
+            m.message_id,
+            m.user_id,
+            m.text,
+            to_char(m.created_at, 'DD-MM-YY HH24:MI') as created_at,
+            u.username
         FROM messages m
         JOIN users u ON m.user_id = u.user_id
         WHERE club_id = $1
@@ -68,6 +70,16 @@ async function getClubMessages(club_id) {
         [club_id]
     );
     return rows;
+}
+
+async function getMessageById(message_id) {
+    const { rows } = await pool.query(
+        `SELECT message_id, club_id, user_id, text, created_at
+     FROM messages
+     WHERE message_id = $1`,
+        [message_id]
+    );
+    return rows[0] || null;
 }
 
 async function getClubPassword(club_id) {
@@ -148,6 +160,7 @@ module.exports = {
     getClubs,
     getClubById,
     getClubMessages,
+    getMessageById,
     getClubPassword,
     createClub,
     deleteClub,

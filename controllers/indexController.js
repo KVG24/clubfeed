@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const db = require("../db/queries");
-const pool = require("../db/pool");
 
 function renderIndex(req, res) {
     res.render("index", { user: req.user });
@@ -44,6 +43,19 @@ async function postMessage(req, res) {
     res.redirect(`/clubs/${req.params.id}`);
 }
 
+async function deleteMessage(req, res) {
+    const message = await db.getMessageById(req.params.message_id);
+    const isAdmin = req.user?.is_admin;
+    const isCreator = Number(message.user_id) === Number(req.user.user_id);
+
+    if (!isAdmin && !isCreator) {
+        return res.status(403).send("Not authorized to delete this message.");
+    }
+
+    await db.deleteMessage(req.params.message_id);
+    res.redirect(`/clubs/${req.params.club_id}`);
+}
+
 async function createClub(req, res, next) {
     const hashedPassword = await bcrypt.hash(req.body.clubPassword, 10);
     await db.createClub(req.body.clubName, hashedPassword, req.user.user_id);
@@ -52,7 +64,7 @@ async function createClub(req, res, next) {
 
 async function deleteClub(req, res) {
     const club = await db.getClubById(req.params.id);
-    const isAdmin = req.user?.isAdmin;
+    const isAdmin = req.user?.is_admin;
     const isCreator = Number(club.creator_id) === Number(req.user.user_id);
 
     if (!isAdmin && !isCreator) {
@@ -131,6 +143,7 @@ module.exports = {
     renderClubs,
     renderSelectedClub,
     postMessage,
+    deleteMessage,
     createClub,
     deleteClub,
     joinClub,

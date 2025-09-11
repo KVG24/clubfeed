@@ -16,5 +16,9 @@ router.post("/clubs/delete/:id", indexController.deleteClub);
 router.get("/clubs/:id", indexController.renderSelectedClub);
 router.post("/clubs/join/:id", indexController.joinClub);
 router.post("/clubs/:id/post-message", indexController.postMessage);
+router.post(
+    "/clubs/:club_id/delete-message/:message_id",
+    indexController.deleteMessage
+);
 
 module.exports = router;
