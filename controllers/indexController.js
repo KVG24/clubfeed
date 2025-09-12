@@ -12,7 +12,15 @@ async function renderIndex(req, res) {
 }
 
 function renderSignUp(req, res) {
-    res.render("sign-up", { errors: null });
+    res.render("sign-up", {
+        errors: null,
+        inputValues: {
+            firstName: "",
+            lastName: "",
+            username: "",
+            email: "",
+        },
+    });
 }
 
 function renderLogIn(req, res) {
@@ -95,20 +103,48 @@ async function joinClub(req, res) {
 
 async function registerUser(req, res, next) {
     try {
+        const {
+            firstName,
+            lastName,
+            username,
+            password,
+            adminPassword,
+            email,
+        } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).render("sign-up", {
                 errors: errors.array(),
+                inputValues: {
+                    firstName: firstName || "",
+                    lastName: lastName || "",
+                    username: username || "",
+                    email: email || "",
+                },
             });
         }
-        const isAdmin = req.body.adminPassword === process.env.ADMIN_PASSWORD;
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        const registeredUsername = await db.getUser(username);
+        if (registeredUsername) {
+            return res.render("sign-up", {
+                errors: [{ msg: "Username already taken" }],
+                inputValues: {
+                    firstName: firstName || "",
+                    lastName: lastName || "",
+                    username: username || "",
+                    email: email || "",
+                },
+            });
+        }
+
+        const isAdmin = adminPassword === process.env.ADMIN_PASSWORD;
+        const hashedPassword = await bcrypt.hash(password, 10);
         await db.registerUser(
-            req.body.firstName,
-            req.body.lastName,
-            req.body.username,
+            firstName,
+            lastName,
+            username,
             hashedPassword,
-            req.body.email,
+            email,
             isAdmin
         );
         res.redirect("/log-in");
